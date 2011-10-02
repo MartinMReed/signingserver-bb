@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>metova-mobile</artifactId>
+		<groupId>org.metova</groupId>
+		<version>1.1.4-SNAPSHOT</version>
+	</parent>
+	<groupId>net.hardisonbrewing</groupId>
+	<artifactId>signingserver-bbm</artifactId>
+	<version>1.0.1-SNAPSHOT</version>
+	<packaging>mobile</packaging>
+	<name>SigningServer BBM Module</name>
+	<description />
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.4</source>
+					<target>1.4</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>com.metova</groupId>
+				<artifactId>metova-maven-mobile</artifactId>
+				<extensions>true</extensions>
+				<configuration>
+					<vendor>Hardison Brewing Company</vendor>
+					<entryPoints>
+						<entryPoint>
+							<title>${project.name}</title>
+							<position>1</position>
+							<autoRunOnStartup>true</autoRunOnStartup>
+							<systemModule>true</systemModule>
+							<startupTier>6</startupTier>
+						</entryPoint>
+					</entryPoints>
+					<platformTypeConfigurations>
+						<platformTypeConfiguration>
+							<id>rim</id>
+							<configuration>
+								<library>false</library>
+							</configuration>
+						</platformTypeConfiguration>
+					</platformTypeConfigurations>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	<dependencies>
+		<dependency>
+			<groupId>net.hardisonbrewing</groupId>
+			<artifactId>signingserver-bbm-lib</artifactId>
+			<version>1.0.1-SNAPSHOT</version>
+			<type>mobile</type>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
+</project>

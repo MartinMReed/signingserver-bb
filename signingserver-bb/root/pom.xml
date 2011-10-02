@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>net.hardisonbrewing</groupId>
+	<artifactId>signingserver-bb-root</artifactId>
+	<name>${pom.artifactId}</name>
+	<packaging>pom</packaging>
+	<version>1.0</version>
+	<description>DO NOT INHERIT FROM THIS POM!</description>
+	<modules>
+		<module>../../../slf4j-api</module>
+		<module>../../../org-metova-mobile-sdk</module>
+		<module>../../../signingserver-clsdsrc-lib</module>
+		<module>../../signingserver-bbm-lib</module>
+		<module>../../signingserver-bb</module>
+	</modules>
+</project>
