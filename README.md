@@ -22,3 +22,6 @@ API Usage
 * OptionsProvider (3.6.0)
 * ApplicationManager (3.6.0)
 * HomeScreen "new state" (6.0.0)
+* RuntimeStore (3.6.0)
+* PersistentStore (3.6.0)
+* ... etc
