@@ -43,6 +43,9 @@
 							<configuration>
 								<library>false</library>
 							</configuration>
+							<minimumClassifiers>
+								<minimumClassifier>RIM-5.0.0</minimumClassifier>
+							</minimumClassifiers>
 						</platformTypeConfiguration>
 					</platformTypeConfigurations>
 				</configuration>

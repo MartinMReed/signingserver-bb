@@ -12,6 +12,7 @@
 		<module>../../../org-metova-mobile-sdk</module>
 		<module>../../../signingserver-clsdsrc-lib</module>
 		<module>../../signingserver-bbm-lib</module>
+		<module>../../signingserver-bbm</module>
 		<module>../../signingserver-bb</module>
 	</modules>
 </project>

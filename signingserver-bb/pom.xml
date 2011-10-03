@@ -48,6 +48,9 @@
 							<configuration>
 								<library>false</library>
 							</configuration>
+							<minimumClassifiers>
+								<minimumClassifier>RIM-5.0.0</minimumClassifier>
+							</minimumClassifiers>
 							<codBundleDependencies>
 								<codBundleDependency>
 									<groupId>net.hardisonbrewing</groupId>
