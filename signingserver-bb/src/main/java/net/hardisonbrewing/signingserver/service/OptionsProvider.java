@@ -23,9 +23,10 @@ import net.hardisonbrewing.signingserver.model.OptionProperties;
 import net.hardisonbrewing.signingserver.service.push.PushPPGService;
 import net.hardisonbrewing.signingserver.service.push.PushSIGService;
 import net.hardisonbrewing.signingserver.service.store.OptionsStore;
+import net.hardisonbrewing.signingserver.service.store.narst.NarstKeyStoreManager;
+import net.hardisonbrewing.signingserver.service.store.push.PushPPGStatusChangeListener;
 import net.hardisonbrewing.signingserver.service.store.push.PushPPGStatusChangeListenerStore;
 import net.hardisonbrewing.signingserver.service.store.push.PushPPGStatusStore;
-import net.hardisonbrewing.signingserver.service.store.push.PushPPGStatusChangeListener;
 import net.rim.blackberry.api.push.PushApplicationStatus;
 import net.rim.device.api.system.Application;
 import net.rim.device.api.system.ApplicationManagerException;
@@ -75,6 +76,11 @@ public class OptionsProvider implements net.rim.blackberry.api.options.OptionsPr
         bbmEnabledField.setCookie( OptionProperties.BBM_ENABLED );
         mainScreen.add( bbmEnabledField );
 
+        boolean deviceKeyStore = optionProperties.getBoolean( OptionProperties.DEVICE_KEY_STORE );
+        CheckboxField deviceKeyStoreField = new CheckboxField( "Use the device key store", deviceKeyStore, Field.USE_ALL_WIDTH );
+        deviceKeyStoreField.setCookie( OptionProperties.DEVICE_KEY_STORE );
+        mainScreen.add( deviceKeyStoreField );
+
         if ( SigservPushApplication.isSupported() ) {
             PushMenuItem pushMenuItem = new PushMenuItem();
             PushPPGStatusChangeListenerStore.put( pushMenuItem );
@@ -88,6 +94,7 @@ public class OptionsProvider implements net.rim.blackberry.api.options.OptionsPr
 
         OptionProperties optionProperties = OptionsStore.get();
         boolean pushEnabled = optionProperties.getBoolean( OptionProperties.PUSH_ENABLED );
+        boolean deviceKeyStore = optionProperties.getBoolean( OptionProperties.DEVICE_KEY_STORE );
 
         int fieldCount = mainScreen.getFieldCount();
         for (int i = 0; i < fieldCount; i++) {
@@ -102,6 +109,7 @@ public class OptionsProvider implements net.rim.blackberry.api.options.OptionsPr
         OptionsStore.commit();
 
         boolean _pushEnabled = optionProperties.getBoolean( OptionProperties.PUSH_ENABLED );
+        boolean _deviceKeyStore = optionProperties.getBoolean( OptionProperties.DEVICE_KEY_STORE );
 
         if ( pushEnabled != _pushEnabled ) {
             try {
@@ -110,6 +118,10 @@ public class OptionsProvider implements net.rim.blackberry.api.options.OptionsPr
             catch (ApplicationManagerException e) {
                 log.error( "Exception while trying " + ( _pushEnabled ? "register" : "unregister" ) + " push notifications" );
             }
+        }
+
+        if ( deviceKeyStore != _deviceKeyStore ) {
+            NarstKeyStoreManager.reset();
         }
     }
 

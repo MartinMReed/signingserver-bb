@@ -81,7 +81,19 @@
 		</dependency>
 		<dependency>
 			<groupId>net.hardisonbrewing</groupId>
-			<artifactId>signingserver-clsdsrc-lib</artifactId>
+			<artifactId>signingserver-narst-lib</artifactId>
+			<version>1.0.1-SNAPSHOT</version>
+			<type>mobile</type>
+			<exclusions>
+				<exclusion>
+					<groupId>org.metova</groupId>
+					<artifactId>org-metova-mobile-sdk</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>net.hardisonbrewing</groupId>
+			<artifactId>signingserver-closed-lib</artifactId>
 			<version>1.0.1-SNAPSHOT</version>
 			<type>mobile</type>
 		</dependency>

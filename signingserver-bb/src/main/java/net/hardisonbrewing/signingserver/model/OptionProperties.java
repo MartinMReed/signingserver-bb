@@ -24,12 +24,14 @@ public class OptionProperties extends Hashtable implements Persistable {
 
     public static final String PUSH_ENABLED = "pushEnabled";
     public static final String BBM_ENABLED = "bbmEnabled";
+    public static final String DEVICE_KEY_STORE = "deviceKeyStore";
 
     public boolean update() {
 
         boolean updated = false;
         updated |= addIfNotPresent( PUSH_ENABLED, Boolean.TRUE );
         updated |= addIfNotPresent( BBM_ENABLED, Boolean.TRUE );
+        updated |= addIfNotPresent( DEVICE_KEY_STORE, Boolean.TRUE );
         return updated;
     }
 

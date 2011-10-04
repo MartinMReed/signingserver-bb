@@ -8,7 +8,7 @@
 	<version>1.0</version>
 	<description>DO NOT INHERIT FROM THIS POM!</description>
 	<modules>
-		<module>../../../signingserver-clsdsrc-lib</module>
+		<module>../../../signingserver-closed-lib</module>
 		<module>../../signingserver-bbm-lib</module>
 		<module>../../signingserver-bbm</module>
 	</modules>
