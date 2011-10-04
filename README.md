@@ -24,4 +24,6 @@ API Usage
 * HomeScreen "new state" (6.0.0)
 * RuntimeStore (3.6.0)
 * PersistentStore (3.6.0)
+* DeviceKeyStore (3.6.0)
+* PrivateKey (3.6.0)
 * ... etc
