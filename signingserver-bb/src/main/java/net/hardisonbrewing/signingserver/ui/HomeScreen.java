@@ -17,14 +17,19 @@
 package net.hardisonbrewing.signingserver.ui;
 
 import java.util.Hashtable;
+import java.util.Vector;
 
 import net.hardisonbrewing.signingserver.SigservBBMApplication;
 import net.hardisonbrewing.signingserver.service.icon.IconService;
 import net.hardisonbrewing.signingserver.service.icon.Icons;
+import net.hardisonbrewing.signingserver.service.narst.NarstService;
 import net.hardisonbrewing.signingserver.service.store.bbm.BBMApplicationStore;
+import net.hardisonbrewing.signingserver.service.store.narst.CSKStore;
+import net.hardisonbrewing.signingserver.service.store.narst.DBStore;
 import net.hardisonbrewing.signingserver.service.store.sig.SigStatusChangeListener;
 import net.hardisonbrewing.signingserver.service.store.sig.SigStatusChangeListenerStore;
 import net.hardisonbrewing.signingserver.service.store.sig.SigStatusStore;
+import net.hardisonbrewing.signingserver.widget.SubMenuPlatform;
 import net.rim.device.api.system.Display;
 import net.rim.device.api.system.EncodedImage;
 import net.rim.device.api.ui.Color;
@@ -37,7 +42,12 @@ import net.rim.device.api.ui.component.Menu;
 import net.rim.device.api.ui.component.NullField;
 import net.rim.device.api.ui.container.MainScreen;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class HomeScreen extends MainScreen {
+
+    private static final Logger log = LoggerFactory.getLogger( HomeScreen.class );
 
     private EncodedImage encodedImage;
 
@@ -74,9 +84,62 @@ public class HomeScreen extends MainScreen {
         graphics.drawImage( imageX, imageY, imageWidth, imageHeight, encodedImage, 0, 0, 0 );
     }
 
+    private MenuItem[] makeNarstSubMenu() {
+
+        Vector menuItems = new Vector();
+
+        boolean hasCSK = CSKStore.get() != null;
+        boolean hasDB = DBStore.get() != null;
+
+        String loadCSKLabel = hasCSK ? "Switch Keys (CSK)" : "Load Keys (CSK)";
+        menuItems.addElement( new MenuItem( loadCSKLabel, 0, 0 ) {
+
+            public void run() {
+
+                NarstService.loadCSKFile();
+            }
+        } );
+
+        if ( hasCSK ) {
+            menuItems.addElement( new MenuItem( "Reset Keys (CSK)", 0, 0 ) {
+
+                public void run() {
+
+                    CSKStore.put( null );
+                }
+            } );
+        }
+
+        String loadDBLabel = hasDB ? "Switch Authorities (DB)" : "Load Authorities (DB)";
+        menuItems.addElement( new MenuItem( loadDBLabel, 0, 0 ) {
+
+            public void run() {
+
+                NarstService.loadDBFile();
+            }
+        } );
+
+        if ( hasDB ) {
+            menuItems.addElement( new MenuItem( "Reset Authorities (DB)", 0, 0 ) {
+
+                public void run() {
+
+                    DBStore.put( null );
+                }
+            } );
+        }
+
+        MenuItem[] _menuItems = new MenuItem[menuItems.size()];
+        menuItems.copyInto( _menuItems );
+        return _menuItems;
+    }
+
     protected void makeMenu( Menu menu, int instance ) {
 
         super.makeMenu( menu, instance );
+
+        MenuItem[] narstSubMenu = makeNarstSubMenu();
+        SubMenuPlatform.addSubMenu( menu, narstSubMenu, "Narst", 0, 0 );
 
         SigservBBMApplication bbmApplication = BBMApplicationStore.get();
         if ( bbmApplication.isSupported() ) {

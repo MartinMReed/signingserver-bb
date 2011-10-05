@@ -17,6 +17,7 @@
 package net.hardisonbrewing.signingserver.service.narst;
 
 import net.hardisonbrewing.signingserver.narst.Properties;
+import net.hardisonbrewing.signingserver.service.store.narst.CSKStore;
 import net.hardisonbrewing.signingserver.service.store.narst.NarstKeyStoreManager;
 import net.rim.device.api.crypto.PrivateKey;
 import net.rim.device.api.ui.UiApplication;
@@ -27,7 +28,7 @@ public class Signer extends net.hardisonbrewing.signingserver.narst.Signer {
 
     protected Properties getCSKProperties() throws Exception {
 
-        return null;
+        return CSKStore.get();
     }
 
     protected String getPassword() {
@@ -65,7 +66,7 @@ public class Signer extends net.hardisonbrewing.signingserver.narst.Signer {
 
         public PasswordDialog() {
 
-            super( Dialog.D_OK_CANCEL, "Password yo", Dialog.OK, null, 0 );
+            super( Dialog.D_OK_CANCEL, "The signing key password is required but will not be stored.", Dialog.OK, null, 0 );
 
             add( passwordEditField = new PasswordEditField() );
         }

@@ -29,4 +29,5 @@ API Usage
 * PersistentStore (3.6.0)
 * DeviceKeyStore (3.6.0)
 * PrivateKey (3.6.0)
+* SubMenu (6.0.0)
 * ... etc
