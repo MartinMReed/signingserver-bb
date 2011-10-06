@@ -20,8 +20,10 @@ import java.util.Hashtable;
 import java.util.Vector;
 
 import net.hardisonbrewing.signingserver.SigservBBMApplication;
+import net.hardisonbrewing.signingserver.service.Files;
 import net.hardisonbrewing.signingserver.service.icon.IconService;
 import net.hardisonbrewing.signingserver.service.icon.Icons;
+import net.hardisonbrewing.signingserver.service.narst.JAD;
 import net.hardisonbrewing.signingserver.service.narst.NarstService;
 import net.hardisonbrewing.signingserver.service.store.bbm.BBMApplicationStore;
 import net.hardisonbrewing.signingserver.service.store.narst.CSKStore;
@@ -38,6 +40,7 @@ import net.rim.device.api.ui.MenuItem;
 import net.rim.device.api.ui.UiApplication;
 import net.rim.device.api.ui.XYDimension;
 import net.rim.device.api.ui.XYEdges;
+import net.rim.device.api.ui.component.Dialog;
 import net.rim.device.api.ui.component.Menu;
 import net.rim.device.api.ui.component.NullField;
 import net.rim.device.api.ui.container.MainScreen;
@@ -128,6 +131,24 @@ public class HomeScreen extends MainScreen {
                 }
             } );
         }
+
+        menuItems.addElement( new MenuItem( "Sign JAD", 0, 0 ) {
+
+            public void run() {
+
+                JAD jad;
+                try {
+                    jad = Files.requestJADFile();
+                }
+                catch (Exception e) {
+                    log.error( "Exception loading JAD file", e );
+                    Dialog.inform( Files.LOAD_FILE_FAIL );
+                    return;
+                }
+
+                Dialog.inform( "CODS: " + jad.getCodCount() );
+            }
+        } );
 
         MenuItem[] _menuItems = new MenuItem[menuItems.size()];
         menuItems.copyInto( _menuItems );

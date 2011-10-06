@@ -17,7 +17,7 @@
 package net.hardisonbrewing.signingserver.service.store.narst;
 
 import net.hardisonbrewing.signingserver.closed.HBCID;
-import net.hardisonbrewing.signingserver.narst.Properties;
+import net.hardisonbrewing.signingserver.service.Properties;
 
 public class DBStore {
 

@@ -20,33 +20,43 @@ import java.io.InputStream;
 
 import javax.microedition.io.Connector;
 
-import net.hardisonbrewing.signingserver.narst.Properties;
+import net.hardisonbrewing.signingserver.service.narst.JAD;
 import net.rim.device.api.ui.picker.FilePicker;
 
 import org.metova.mobile.util.io.IOUtility;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class Files {
 
-    private static final Logger log = LoggerFactory.getLogger( Files.class );
+    public static final String LOAD_FILE_FAIL = "Whoooopsie! There was a problem loading the file. Fail =(";
+
+    public static JAD requestJADFile() throws Exception {
+
+        JAD jad = new JAD();
+        requestPropertiesFile( jad, "jad" );
+        return jad;
+    }
 
     public static Properties requestPropertiesFile( String ext ) throws Exception {
+
+        Properties properties = new Properties();
+        requestPropertiesFile( properties, ext );
+        return properties;
+    }
+
+    public static void requestPropertiesFile( Propertieseque properties, String ext ) throws Exception {
 
         FilePicker filePicker = FilePicker.getInstance();
         filePicker.setFilter( "." + ext.toLowerCase() );
         String filePath = filePicker.show();
 
         if ( filePath == null ) {
-            return null;
+            return;
         }
 
         InputStream inputStream = null;
         try {
             inputStream = Connector.openInputStream( filePath );
-            Properties properties = new Properties();
             properties.load( inputStream );
-            return properties;
         }
         finally {
             IOUtility.safeClose( inputStream );

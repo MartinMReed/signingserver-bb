@@ -16,8 +16,8 @@
  */
 package net.hardisonbrewing.signingserver.service.narst;
 
-import net.hardisonbrewing.signingserver.narst.Properties;
 import net.hardisonbrewing.signingserver.service.Files;
+import net.hardisonbrewing.signingserver.service.Properties;
 import net.hardisonbrewing.signingserver.service.store.narst.CSKStore;
 import net.hardisonbrewing.signingserver.service.store.narst.DBStore;
 import net.rim.device.api.ui.component.Dialog;
@@ -58,7 +58,7 @@ public class NarstService {
         }
         catch (Exception e) {
             log.error( "Exception loading " + ext.toUpperCase() + " file" );
-            Dialog.inform( "Whoooopsie! There was a problem loading the file =(" );
+            Dialog.inform( Files.LOAD_FILE_FAIL );
             return null;
         }
     }

@@ -106,7 +106,11 @@ public class SigservBBMApplication {
             log.error( "Unable to register for BBM. Access status[" + accessErrorCode + "]" );
             if ( accessErrorCode == BBMApplication.ACCESS_REGISTER_WITH_UI_APPLICATION ) {
                 IconService.setIconNewState( true );
+                return registered;
             }
+        }
+        else {
+            IconService.setIconNewState( false );
         }
 
         return registered;

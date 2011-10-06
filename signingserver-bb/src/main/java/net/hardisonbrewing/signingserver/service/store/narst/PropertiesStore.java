@@ -16,7 +16,7 @@
  */
 package net.hardisonbrewing.signingserver.service.store.narst;
 
-import net.hardisonbrewing.signingserver.narst.Properties;
+import net.hardisonbrewing.signingserver.service.Properties;
 import net.rim.device.api.system.PersistentObject;
 import net.rim.device.api.system.PersistentStore;
 

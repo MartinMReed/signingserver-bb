@@ -16,7 +16,7 @@
  */
 package net.hardisonbrewing.signingserver.service.narst;
 
-import net.hardisonbrewing.signingserver.narst.Properties;
+import net.hardisonbrewing.signingserver.service.Properties;
 import net.hardisonbrewing.signingserver.service.store.narst.CSKStore;
 import net.hardisonbrewing.signingserver.service.store.narst.NarstKeyStoreManager;
 import net.rim.device.api.crypto.PrivateKey;
