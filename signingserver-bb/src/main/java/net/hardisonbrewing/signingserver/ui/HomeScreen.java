@@ -20,10 +20,11 @@ import java.util.Hashtable;
 import java.util.Vector;
 
 import net.hardisonbrewing.signingserver.SigservBBMApplication;
+import net.hardisonbrewing.signingserver.model.JAD;
+import net.hardisonbrewing.signingserver.model.SigningAuthority;
 import net.hardisonbrewing.signingserver.service.Files;
 import net.hardisonbrewing.signingserver.service.icon.IconService;
 import net.hardisonbrewing.signingserver.service.icon.Icons;
-import net.hardisonbrewing.signingserver.service.narst.JAD;
 import net.hardisonbrewing.signingserver.service.narst.NarstService;
 import net.hardisonbrewing.signingserver.service.store.bbm.BBMApplicationStore;
 import net.hardisonbrewing.signingserver.service.store.narst.CSKStore;
@@ -136,9 +137,22 @@ public class HomeScreen extends MainScreen {
 
             public void run() {
 
+                SigningAuthority[] signingAuthorities = DBStore.get();
+
+                while (signingAuthorities == null) {
+
+                    String message = "This feature requires you to load a signing authorities file. The file is typically named with the extension DB. Would you like to load it now?";
+                    int result = Dialog.ask( Dialog.D_YES_NO, message, Dialog.YES );
+                    if ( result != Dialog.YES ) {
+                        return;
+                    }
+
+                    signingAuthorities = NarstService.loadDBFile();
+                }
+
                 JAD jad;
                 try {
-                    jad = Files.requestJADFile();
+                    jad = NarstService.requestJADFile();
                 }
                 catch (Exception e) {
                     log.error( "Exception loading JAD file", e );
@@ -146,7 +160,7 @@ public class HomeScreen extends MainScreen {
                     return;
                 }
 
-                Dialog.inform( "CODS: " + jad.getCodCount() );
+                UiApplication.getUiApplication().pushScreen( new CodSigningScreen( jad, signingAuthorities ) );
             }
         } );
 

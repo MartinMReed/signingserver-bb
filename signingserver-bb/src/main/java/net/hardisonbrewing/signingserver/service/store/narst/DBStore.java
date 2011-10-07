@@ -17,19 +17,29 @@
 package net.hardisonbrewing.signingserver.service.store.narst;
 
 import net.hardisonbrewing.signingserver.closed.HBCID;
-import net.hardisonbrewing.signingserver.service.Properties;
+import net.hardisonbrewing.signingserver.model.SigningAuthority;
+import net.rim.device.api.system.PersistentObject;
+import net.rim.device.api.system.PersistentStore;
 
 public class DBStore {
 
     private static final long UID = HBCID.getUUID( DBStore.class );
 
-    public static void put( Properties properties ) {
+    public static void put( SigningAuthority[] signingAuthorities ) {
 
-        PropertiesStore.put( UID, properties );
+        if ( signingAuthorities == null ) {
+            PersistentStore.destroyPersistentObject( UID );
+            return;
+        }
+
+        PersistentObject persistentObject = PersistentStore.getPersistentObject( UID );
+        persistentObject.setContents( signingAuthorities );
+        persistentObject.commit();
     }
 
-    public static Properties get() {
+    public static SigningAuthority[] get() {
 
-        return PropertiesStore.get( UID );
+        PersistentObject persistentObject = PersistentStore.getPersistentObject( UID );
+        return (SigningAuthority[]) persistentObject.getContents();
     }
 }

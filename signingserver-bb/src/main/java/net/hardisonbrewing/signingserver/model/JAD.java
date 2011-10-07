@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package net.hardisonbrewing.signingserver.service.narst;
+package net.hardisonbrewing.signingserver.model;
 
 import java.io.EOFException;
 import java.io.IOException;
@@ -35,6 +35,8 @@ public class JAD extends Vector implements Propertieseque {
     public static final String COD_SIZE = "RIM-COD-Size";
     public static final String COD_SHA1 = "RIM-COD-SHA1";
 
+    public String filePath;
+
     public int getCodCount() {
 
         int cods = 0;
@@ -54,7 +56,10 @@ public class JAD extends Vector implements Propertieseque {
         Entry size = getEntry( COD_SIZE + id );
         Entry sha1 = getEntry( COD_SHA1 + id );
 
+        int filename = url.value.lastIndexOf( '/' );
+
         COD cod = new COD();
+        cod.filename = filename == -1 ? url.value : url.value.substring( filename + 1 );
         cod.url = url.value;
         cod.size = Long.parseLong( size.value );
         cod.sha1 = sha1.value;
@@ -80,6 +85,9 @@ public class JAD extends Vector implements Propertieseque {
     }
 
     public void setProperty( String key, String value ) {
+
+        key = key.trim();
+        value = value.trim();
 
         Entry entry = getEntry( key );
         if ( entry != null ) {
@@ -216,6 +224,7 @@ public class JAD extends Vector implements Propertieseque {
 
     public static final class COD {
 
+        public String filename;
         public String url;
         public long size;
         public String sha1;

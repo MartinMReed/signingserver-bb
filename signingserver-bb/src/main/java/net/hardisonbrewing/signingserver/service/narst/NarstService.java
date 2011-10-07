@@ -16,6 +16,11 @@
  */
 package net.hardisonbrewing.signingserver.service.narst;
 
+import java.util.Enumeration;
+import java.util.Vector;
+
+import net.hardisonbrewing.signingserver.model.JAD;
+import net.hardisonbrewing.signingserver.model.SigningAuthority;
 import net.hardisonbrewing.signingserver.service.Files;
 import net.hardisonbrewing.signingserver.service.Properties;
 import net.hardisonbrewing.signingserver.service.store.narst.CSKStore;
@@ -29,6 +34,44 @@ public class NarstService {
 
     private static final Logger log = LoggerFactory.getLogger( NarstService.class );
 
+    public static JAD requestJADFile() throws Exception {
+
+        JAD jad = new JAD();
+        jad.filePath = Files.requestPropertiesFile( jad, "jad" );
+        return jad;
+    }
+
+    public static SigningAuthority[] requestAuthorities() throws Exception {
+
+        Properties properties = new Properties();
+        String filePath = Files.requestPropertiesFile( properties, "db" );
+
+        if ( filePath == null ) {
+            return null;
+        }
+
+        Vector signingAuthorities = new Vector();
+
+        Enumeration enumerator = properties.keys();
+        while (enumerator.hasMoreElements()) {
+
+            String key = (String) enumerator.nextElement();
+            String value = properties.getProperty( key );
+
+            int indexOf = value.indexOf( "http" );
+
+            SigningAuthority signingAuthority = new SigningAuthority();
+            signingAuthority.key = key;
+            signingAuthority.clientId = Long.parseLong( value.substring( 0, indexOf ) );
+            signingAuthority.url = value.substring( indexOf );
+            signingAuthorities.addElement( signingAuthority );
+        }
+
+        SigningAuthority[] _signingAuthorities = new SigningAuthority[signingAuthorities.size()];
+        signingAuthorities.copyInto( _signingAuthorities );
+        return _signingAuthorities;
+    }
+
     public static void loadCSKFile() {
 
         Properties properties = loadFile( "csk" );
@@ -40,15 +83,22 @@ public class NarstService {
         CSKStore.put( properties );
     }
 
-    public static void loadDBFile() {
+    public static SigningAuthority[] loadDBFile() {
 
-        Properties properties = loadFile( "db" );
+        SigningAuthority[] signingAuthorities;
 
-        if ( properties == null ) {
-            return;
+        try {
+            signingAuthorities = requestAuthorities();
+        }
+        catch (Exception e) {
+            log.error( "Exception loading the signing authorities file" );
+            Dialog.inform( Files.LOAD_FILE_FAIL );
+            return null;
         }
 
-        DBStore.put( properties );
+        DBStore.put( signingAuthorities );
+
+        return signingAuthorities;
     }
 
     public static Properties loadFile( String ext ) {
