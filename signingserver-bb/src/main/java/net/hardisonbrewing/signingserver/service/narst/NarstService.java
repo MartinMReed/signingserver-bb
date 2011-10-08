@@ -27,6 +27,7 @@ import net.hardisonbrewing.signingserver.service.store.narst.CSKStore;
 import net.hardisonbrewing.signingserver.service.store.narst.DBStore;
 import net.rim.device.api.ui.component.Dialog;
 
+import org.metova.mobile.util.text.Text;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -60,10 +61,13 @@ public class NarstService {
 
             int indexOf = value.indexOf( "http" );
 
+            String url = value.substring( indexOf );
+            url = Text.replaceAll( url, "\\:", ":" );
+
             SigningAuthority signingAuthority = new SigningAuthority();
             signingAuthority.key = key;
             signingAuthority.clientId = Long.parseLong( value.substring( 0, indexOf ) );
-            signingAuthority.url = value.substring( indexOf );
+            signingAuthority.url = url;
             signingAuthorities.addElement( signingAuthority );
         }
 

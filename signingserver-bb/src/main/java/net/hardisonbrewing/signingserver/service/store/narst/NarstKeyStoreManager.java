@@ -18,6 +18,7 @@ package net.hardisonbrewing.signingserver.service.store.narst;
 
 import net.hardisonbrewing.signingserver.closed.HBCID;
 import net.hardisonbrewing.signingserver.model.OptionProperties;
+import net.hardisonbrewing.signingserver.service.narst.Signer;
 import net.hardisonbrewing.signingserver.service.store.OptionsStore;
 import net.rim.device.api.system.RuntimeStore;
 
@@ -27,6 +28,7 @@ public class NarstKeyStoreManager {
 
     public static void reset() {
 
+        Signer.reset();
         RuntimeStore.getRuntimeStore().remove( UID );
     }
 

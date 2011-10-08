@@ -23,11 +23,11 @@ import java.util.Vector;
 
 import javax.microedition.io.Connector;
 
+import net.hardisonbrewing.signingserver.SigservApplication;
 import net.hardisonbrewing.signingserver.model.JAD;
 import net.hardisonbrewing.signingserver.model.JAD.COD;
 import net.hardisonbrewing.signingserver.model.SigningAuthority;
 import net.hardisonbrewing.signingserver.service.narst.Signer;
-import net.rim.device.api.system.Characters;
 import net.rim.device.api.system.Display;
 import net.rim.device.api.ui.DrawStyle;
 import net.rim.device.api.ui.Font;
@@ -39,12 +39,8 @@ import net.rim.device.api.ui.container.MainScreen;
 import org.apache.commons.threadpool.DefaultThreadPool;
 import org.apache.commons.threadpool.ThreadPool;
 import org.metova.mobile.util.io.IOUtility;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class CodSigningScreen extends MainScreen {
-
-    private static final Logger log = LoggerFactory.getLogger( CodSigningScreen.class );
 
     private ListField listField;
 
@@ -113,13 +109,13 @@ public class CodSigningScreen extends MainScreen {
 
         switch (status) {
             case SigningAttempt.STATUS_SENDING:
-                return "Sending" + Characters.HORIZONTAL_ELLIPSIS;
+                return "Sending";
             case SigningAttempt.STATUS_COMPLETE:
-                return "Complete";
+                return "Signed";
             case SigningAttempt.STATUS_FAILED:
                 return "Failed";
             case SigningAttempt.STATUS_WAITING:
-                return "Waiting" + Characters.HORIZONTAL_ELLIPSIS;
+                return "Waiting";
             default:
                 return "Unknown";
         }
@@ -241,12 +237,13 @@ public class CodSigningScreen extends MainScreen {
                     try {
                         signingAttempt.updateStatus( SigningAttempt.STATUS_SENDING );
                         inputStream = Connector.openInputStream( filePath );
-                        signer.sign( inputStream, filePath );
+                        signer.sign( inputStream, filePath + ".signed" );
                         signingAttempt.updateStatus( SigningAttempt.STATUS_COMPLETE );
                         break;
                     }
-                    catch (Exception e) {
+                    catch (Throwable t) {
                         IOUtility.safeClose( inputStream );
+                        SigservApplication.logEvent( t.toString() );
                     }
                 }
 

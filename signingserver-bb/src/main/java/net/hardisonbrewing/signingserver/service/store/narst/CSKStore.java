@@ -29,7 +29,7 @@ public class CSKStore {
     public static void put( Properties properties ) {
 
         if ( properties == null ) {
-            Signer.password = null;
+            Signer.reset();
             PersistentStore.destroyPersistentObject( UID );
             return;
         }
