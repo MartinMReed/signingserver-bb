@@ -34,7 +34,14 @@ public class OptionsStore {
     public static OptionProperties get() {
 
         PersistentObject persistentObject = PersistentStore.getPersistentObject( UID );
-        OptionProperties optionProperties = (OptionProperties) persistentObject.getContents();
+        OptionProperties optionProperties = null;
+
+        try {
+            optionProperties = (OptionProperties) persistentObject.getContents();
+        }
+        catch (Exception e) {
+            PersistentStore.destroyPersistentObject( UID );
+        }
 
         boolean created = false;
 

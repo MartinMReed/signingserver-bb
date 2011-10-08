@@ -26,6 +26,10 @@ import net.rim.device.api.ui.component.PasswordEditField;
 
 public class Signer extends net.hardisonbrewing.signingserver.narst.Signer {
 
+    private static final Object PASSWORD_LOCK = new Object();
+
+    public static String password;
+
     protected Properties getCSKProperties() throws Exception {
 
         return CSKStore.get();
@@ -33,13 +37,25 @@ public class Signer extends net.hardisonbrewing.signingserver.narst.Signer {
 
     protected String getPassword() {
 
+        synchronized (PASSWORD_LOCK) {
+
+            if ( password == null ) {
+                password = requestPassword();
+            }
+
+            return password;
+        }
+    }
+
+    private String requestPassword() {
+
         final PasswordDialog dialog = new PasswordDialog();
 
         UiApplication.getUiApplication().invokeAndWait( new Runnable() {
 
             public void run() {
 
-                dialog.show();
+                UiApplication.getUiApplication().pushModalScreen( dialog );
             }
         } );
 

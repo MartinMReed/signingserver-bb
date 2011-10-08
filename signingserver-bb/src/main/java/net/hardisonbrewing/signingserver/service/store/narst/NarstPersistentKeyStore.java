@@ -46,7 +46,14 @@ public class NarstPersistentKeyStore implements NarstKeyStore {
     private Hashtable load() {
 
         PersistentObject persistentObject = PersistentStore.getPersistentObject( UID );
-        Hashtable hashtable = (Hashtable) persistentObject.getContents();
+        Hashtable hashtable = null;
+
+        try {
+            hashtable = (Hashtable) persistentObject.getContents();
+        }
+        catch (Exception e) {
+            PersistentStore.destroyPersistentObject( UID );
+        }
 
         if ( hashtable == null ) {
             hashtable = new NarstKeyHashtable();

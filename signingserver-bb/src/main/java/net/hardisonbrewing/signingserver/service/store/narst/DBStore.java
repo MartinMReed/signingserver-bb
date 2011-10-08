@@ -39,7 +39,13 @@ public class DBStore {
 
     public static SigningAuthority[] get() {
 
-        PersistentObject persistentObject = PersistentStore.getPersistentObject( UID );
-        return (SigningAuthority[]) persistentObject.getContents();
+        try {
+            PersistentObject persistentObject = PersistentStore.getPersistentObject( UID );
+            return (SigningAuthority[]) persistentObject.getContents();
+        }
+        catch (Exception e) {
+            PersistentStore.destroyPersistentObject( UID );
+            return null;
+        }
     }
 }

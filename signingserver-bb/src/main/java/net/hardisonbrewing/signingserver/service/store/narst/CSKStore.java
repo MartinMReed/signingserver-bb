@@ -18,6 +18,9 @@ package net.hardisonbrewing.signingserver.service.store.narst;
 
 import net.hardisonbrewing.signingserver.closed.HBCID;
 import net.hardisonbrewing.signingserver.service.Properties;
+import net.hardisonbrewing.signingserver.service.narst.Signer;
+import net.rim.device.api.system.PersistentObject;
+import net.rim.device.api.system.PersistentStore;
 
 public class CSKStore {
 
@@ -25,11 +28,26 @@ public class CSKStore {
 
     public static void put( Properties properties ) {
 
-        PropertiesStore.put( UID, properties );
+        if ( properties == null ) {
+            Signer.password = null;
+            PersistentStore.destroyPersistentObject( UID );
+            return;
+        }
+
+        PersistentObject persistentObject = PersistentStore.getPersistentObject( UID );
+        persistentObject.setContents( properties );
+        persistentObject.commit();
     }
 
     public static Properties get() {
 
-        return PropertiesStore.get( UID );
+        try {
+            PersistentObject persistentObject = PersistentStore.getPersistentObject( UID );
+            return (Properties) persistentObject.getContents();
+        }
+        catch (Exception e) {
+            PersistentStore.destroyPersistentObject( UID );
+            return null;
+        }
     }
 }
