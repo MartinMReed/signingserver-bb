@@ -61,8 +61,12 @@ public class JAD extends Vector implements Propertieseque {
         COD cod = new COD();
         cod.filename = filename == -1 ? url.value : url.value.substring( filename + 1 );
         cod.url = url.value;
-        cod.size = Long.parseLong( size.value );
-        cod.sha1 = sha1.value;
+        if ( size != null ) {
+            cod.size = Long.parseLong( size.value );
+        }
+        if ( sha1 != null ) {
+            cod.sha1 = sha1.value;
+        }
         return cod;
     }
 

@@ -19,6 +19,9 @@ package net.hardisonbrewing.signingserver.service.narst;
 import java.util.Enumeration;
 import java.util.Vector;
 
+import javax.microedition.io.Connector;
+import javax.microedition.io.file.FileConnection;
+
 import net.hardisonbrewing.signingserver.model.JAD;
 import net.hardisonbrewing.signingserver.model.SigningAuthority;
 import net.hardisonbrewing.signingserver.service.Files;
@@ -26,7 +29,9 @@ import net.hardisonbrewing.signingserver.service.Properties;
 import net.hardisonbrewing.signingserver.service.store.narst.CSKStore;
 import net.hardisonbrewing.signingserver.service.store.narst.DBStore;
 import net.rim.device.api.ui.component.Dialog;
+import net.rim.device.api.ui.picker.FilePicker;
 
+import org.metova.mobile.util.io.IOUtility;
 import org.metova.mobile.util.text.Text;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,6 +45,73 @@ public class NarstService {
         JAD jad = new JAD();
         jad.filePath = Files.requestPropertiesFile( jad, "jad" );
         return jad;
+    }
+
+    public static JAD requestCodFilePath() throws Exception {
+
+        FilePicker filePicker = FilePicker.getInstance();
+        filePicker.setFilter( ".cod" );
+        String filePath = filePicker.show();
+
+        if ( filePath == null ) {
+            return null;
+        }
+
+        int lastIndexOf = filePath.lastIndexOf( '/' );
+        String codFilename = filePath.substring( lastIndexOf + 1 );
+        String directory = filePath.substring( 0, lastIndexOf );
+
+        String[] filePaths = getAllCods( directory );
+
+        JAD jad = new JAD();
+        jad.filePath = directory + "/" + getJadFilenameFromCod( codFilename );
+
+        for (int i = 0; i < filePaths.length; i++) {
+            String urlKey = JAD.COD_URL;
+            if ( i > 0 ) {
+                urlKey += "-" + i;
+            }
+            jad.setProperty( urlKey, filePaths[i] );
+        }
+
+        return jad;
+    }
+
+    private static String getJadFilenameFromCod( String filename ) {
+
+        int lastIndexOf = filename.lastIndexOf( '-' );
+        if ( lastIndexOf == -1 ) {
+            lastIndexOf = filename.lastIndexOf( '.' );
+        }
+        return filename.substring( 0, lastIndexOf );
+    }
+
+    public static String[] getAllCods( String directory ) throws Exception {
+
+        FileConnection fileConnection = null;
+
+        try {
+
+            fileConnection = (FileConnection) Connector.open( directory );
+
+            if ( !fileConnection.exists() || !fileConnection.isDirectory() ) {
+                return null;
+            }
+
+            Vector files = new Vector();
+
+            Enumeration enumerator = fileConnection.list( "*.cod", false );
+            while (enumerator.hasMoreElements()) {
+                files.addElement( enumerator.nextElement() );
+            }
+
+            String[] _files = new String[files.size()];
+            files.copyInto( _files );
+            return _files;
+        }
+        finally {
+            IOUtility.safeClose( fileConnection );
+        }
     }
 
     public static SigningAuthority[] requestAuthorities() throws Exception {

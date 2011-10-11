@@ -137,18 +137,7 @@ public class HomeScreen extends MainScreen {
 
             public void run() {
 
-                SigningAuthority[] signingAuthorities = DBStore.get();
-
-                while (signingAuthorities == null) {
-
-                    String message = "This feature requires you to load a signing authorities file. The file is typically named with the extension DB. Would you like to load it now?";
-                    int result = Dialog.ask( Dialog.D_YES_NO, message, Dialog.YES );
-                    if ( result != Dialog.YES ) {
-                        return;
-                    }
-
-                    signingAuthorities = NarstService.loadDBFile();
-                }
+                SigningAuthority[] signingAuthorities = getSigningAuthorities();
 
                 JAD jad;
                 try {
@@ -164,9 +153,47 @@ public class HomeScreen extends MainScreen {
             }
         } );
 
+        menuItems.addElement( new MenuItem( "Sign COD", 0, 0 ) {
+
+            public void run() {
+
+                SigningAuthority[] signingAuthorities = getSigningAuthorities();
+
+                JAD jad;
+                try {
+                    jad = NarstService.requestCodFilePath();
+                }
+                catch (Exception e) {
+                    log.error( "Exception loading COD files", e );
+                    Dialog.inform( Files.LOAD_FILE_FAIL );
+                    return;
+                }
+
+                UiApplication.getUiApplication().pushScreen( new CodSigningScreen( jad, signingAuthorities ) );
+            }
+        } );
+
         MenuItem[] _menuItems = new MenuItem[menuItems.size()];
         menuItems.copyInto( _menuItems );
         return _menuItems;
+    }
+
+    private SigningAuthority[] getSigningAuthorities() {
+
+        SigningAuthority[] signingAuthorities = DBStore.get();
+
+        while (signingAuthorities == null) {
+
+            String message = "This feature requires you to load a signing authorities file. The file is typically named with the extension DB. Would you like to load it now?";
+            int result = Dialog.ask( Dialog.D_YES_NO, message, Dialog.YES );
+            if ( result != Dialog.YES ) {
+                return null;
+            }
+
+            signingAuthorities = NarstService.loadDBFile();
+        }
+
+        return signingAuthorities;
     }
 
     protected void makeMenu( Menu menu, int instance ) {
