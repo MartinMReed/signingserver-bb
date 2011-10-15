@@ -237,7 +237,7 @@ public class CodSigningScreen extends MainScreen {
                     try {
                         signingAttempt.updateStatus( SigningAttempt.STATUS_SENDING );
                         inputStream = Connector.openInputStream( filePath );
-                        signer.sign( inputStream, filePath + ".signed" );
+                        signer.sign( inputStream, filePath );
                         signingAttempt.updateStatus( SigningAttempt.STATUS_COMPLETE );
                         break;
                     }
