@@ -27,6 +27,7 @@ import net.hardisonbrewing.signingserver.SigservApplication;
 import net.hardisonbrewing.signingserver.model.JAD;
 import net.hardisonbrewing.signingserver.model.JAD.COD;
 import net.hardisonbrewing.signingserver.model.SigningAuthority;
+import net.hardisonbrewing.signingserver.service.Properties;
 import net.hardisonbrewing.signingserver.service.narst.Signer;
 import net.rim.device.api.system.Display;
 import net.rim.device.api.ui.DrawStyle;
@@ -237,7 +238,10 @@ public class CodSigningScreen extends MainScreen {
                     try {
                         signingAttempt.updateStatus( SigningAttempt.STATUS_SENDING );
                         inputStream = Connector.openInputStream( filePath );
-                        signer.sign( inputStream, filePath );
+                        Properties response = signer.requestSignature( inputStream );
+                        synchronized (signingAttempt.cod) {
+                            signer.applySignature( response, filePath );
+                        }
                         signingAttempt.updateStatus( SigningAttempt.STATUS_COMPLETE );
                         break;
                     }
