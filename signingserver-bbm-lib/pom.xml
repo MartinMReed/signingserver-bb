@@ -8,7 +8,7 @@
 	</parent>
 	<groupId>net.hardisonbrewing</groupId>
 	<artifactId>signingserver-bbm-lib</artifactId>
-	<version>1.0.1-SNAPSHOT</version>
+	<version>1.0.2-SNAPSHOT</version>
 	<packaging>mobile</packaging>
 	<name>SigningServer BBM Module Library</name>
 	<description />
@@ -59,7 +59,7 @@
 		<dependency>
 			<groupId>net.hardisonbrewing</groupId>
 			<artifactId>signingserver-closed-lib</artifactId>
-			<version>1.0.1-SNAPSHOT</version>
+			<version>1.0.2-SNAPSHOT</version>
 			<type>mobile</type>
 		</dependency>
 	</dependencies>

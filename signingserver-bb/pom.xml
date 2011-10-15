@@ -8,7 +8,7 @@
 	</parent>
 	<groupId>net.hardisonbrewing</groupId>
 	<artifactId>signingserver</artifactId>
-	<version>1.0.1-SNAPSHOT</version>
+	<version>1.0.2.1-SNAPSHOT</version>
 	<packaging>mobile</packaging>
 	<name>SigningServer</name>
 	<description>Realtime notification of the BlackBerry signing server status</description>
@@ -55,13 +55,13 @@
 								<codBundleDependency>
 									<groupId>net.hardisonbrewing</groupId>
 									<artifactId>signingserver-bbm-lib</artifactId>
-									<version>1.0.1-SNAPSHOT</version>
+									<version>1.0.2-SNAPSHOT</version>
 									<type>mobile</type>
 								</codBundleDependency>
 								<codBundleDependency>
 									<groupId>net.hardisonbrewing</groupId>
 									<artifactId>signingserver-bbm</artifactId>
-									<version>1.0.1-SNAPSHOT</version>
+									<version>1.0.2-SNAPSHOT</version>
 									<type>mobile</type>
 								</codBundleDependency>
 							</codBundleDependencies>
@@ -75,14 +75,14 @@
 		<dependency>
 			<groupId>net.hardisonbrewing</groupId>
 			<artifactId>signingserver-bbm-lib</artifactId>
-			<version>1.0.1-SNAPSHOT</version>
+			<version>1.0.2-SNAPSHOT</version>
 			<type>mobile</type>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>net.hardisonbrewing</groupId>
 			<artifactId>signingserver-narst-lib</artifactId>
-			<version>1.0.1-SNAPSHOT</version>
+			<version>1.0.2-SNAPSHOT</version>
 			<type>mobile</type>
 			<exclusions>
 				<exclusion>
@@ -94,7 +94,7 @@
 		<dependency>
 			<groupId>net.hardisonbrewing</groupId>
 			<artifactId>signingserver-closed-lib</artifactId>
-			<version>1.0.1-SNAPSHOT</version>
+			<version>1.0.2-SNAPSHOT</version>
 			<type>mobile</type>
 		</dependency>
 		<dependency>

@@ -148,9 +148,13 @@ public class SigservApplication extends UiApplication {
 
     private void bootloader() {
 
-        IconService.setIconNewState( false );
-
         pushScreen( new net.hardisonbrewing.signingserver.ui.HomeScreen() );
+    }
+
+    public void activate() {
+
+        IconService.setIconNewState( false );
+        super.activate();
     }
 
     public static final boolean hasSufficientCoverage() {
