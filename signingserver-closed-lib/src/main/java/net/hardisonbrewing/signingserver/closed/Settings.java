@@ -18,10 +18,6 @@ package net.hardisonbrewing.signingserver.closed;
 
 public class Settings {
 
-    public static final String SALT;
-
-    public static final String BASE_URL;
-
     public static class SigStatusInfo {
 
         public static final int VERSION;
