@@ -15,5 +15,4 @@ The NARST library is responsible for the actual signing attempts made to the RIM
 ## Related Projects
 [Signing Server Monitoring](https://github.com/hardisonbrewing/signingserver-com)  
 [Custom Signature Tool](https://github.com/hardisonbrewing/signingserver)  
-[Signing Library](https://github.com/hardisonbrewing/narst)  
-[Arduino Sign](https://github.com/hardisonbrewing/signingserver-arduino)
+[Signing Library](https://github.com/hardisonbrewing/narst)
